@@ -1,0 +1,42 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+  
+  db:
+    hostname: db
+    container_name: wt-db
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=p@ssw0rd42
+    
+  web:
+      hostname: web
+      container_name: wt-app
+      build:  ./app
+      restart: always
+      depends_on:
+        - db
+      ports:
+        - "2000:2000"
+      environment:
+        PORT: 2000
+        HOST: 0.0.0.0
+        NODE_ENV: development
+        HOST_URL: http://0.0.0.0:2000
+        COOKIE_ENCRYPT_PWD: superAwesomePasswordStringThatIsAtLeast32CharactersLong!
+        OKTA_ORG_URL: https://dev-96311573.okta.com
+        OKTA_CLIENT_ID: 0oa57uv2e4ZbMvc8b5d7
+        OKTA_CLIENT_SECRET: -dS3ittft57jAzdyGrR1AmJhVD9qr2xapEJla7MF
+        PGHOST: db
+        PGUSERNAME: postgres
+        PGDATABASE: postgres
+        PGPASSWORD: p@ssw0rd42
+        PGPORT: 5432
