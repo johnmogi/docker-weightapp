@@ -7,3 +7,13 @@
 plating with the weightapp locally then azure cloudly and maybe awssy (:
 
 # docker-weightapp
+
+
+status: works but no db connection
+in order to build the connection it needs to figure out the pghost.
+which is dynamic - it resolves after the setup...
+
+steps to reproduce:
+docker inspect <container_db> | grep IPAddress
+then this value can be inserted into the app .env
+
